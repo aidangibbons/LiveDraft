@@ -4,6 +4,12 @@
 # LiveDraft
 
 <!-- badges: start -->
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-CMD-check](https://github.com/aidangibbons/LiveDraft/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/aidangibbons/LiveDraft/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/aidangibbons/LiveDraft/branch/main/graph/badge.svg)](https://app.codecov.io/gh/aidangibbons/LiveDraft?branch=main)
 <!-- badges: end -->
 
 The goal of LiveDraft is to …
@@ -21,7 +27,7 @@ You can install the development version of LiveDraft like so:
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
-library(LiveDraft)
+# library(LiveDraft)
 ## basic example code
 ```
 
