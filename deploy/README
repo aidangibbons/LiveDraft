@@ -1,0 +1,4 @@
+docker build -f Dockerfile_base --progress=plain -t livedraft_base .
+docker build -f Dockerfile --progress=plain -t livedraft:latest .
+docker run -p 80:80 livedraft:latest
+# then go to 127.0.0.1:80

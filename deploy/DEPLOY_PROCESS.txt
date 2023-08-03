@@ -1,0 +1,12 @@
+cd deploy
+open docker desktop
+## MAYBE delete renv line in dockerfile & dockerfile_base if code hangs at this point
+docker build -f Dockerfile_base --progress=plain -t livedraft_base .
+docker build -f Dockerfile --progress=plain -t livedraft:latest .
+docker run -dp 80:80 livedraft:latest
+# then go to 127.0.0.1:80
+docker tag livedraft aidangibbons/livedraft:latest
+docker push aidangibbons/livedraft:latest
+
+fly launch
+fly deploy -i aidangibbons/livedraft

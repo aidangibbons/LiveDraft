@@ -10,7 +10,10 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic
     fluidPage(
-      h1("LiveDraft")
+      mod_splash_page_ui("splash"),
+      mod_countdown_ui("countdown"),
+      mod_video_ui("video"),
+      mod_main_ui("main")
     )
   )
 }
@@ -22,8 +25,14 @@ app_ui <- function(request) {
 #'
 #' @import shiny
 #' @importFrom golem add_resource_path activate_js favicon bundle_resources
+#' @importFrom bslib bs_theme
+#' @importFrom scroller use_scroller
+#' @importFrom shinyjs useShinyjs
 #' @noRd
 golem_add_external_resources <- function() {
+  fpl_col <<- "#480442"
+  fpl_accent <<- "#68F1B0"
+
   add_resource_path(
     "www",
     app_sys("app/www")
@@ -34,8 +43,10 @@ golem_add_external_resources <- function() {
     bundle_resources(
       path = app_sys("app/www"),
       app_title = "LiveDraft"
-    )
-    # Add here other external resources
-    # for example, you can add shinyalert::useShinyalert()
+    ),
+    tags$style(type="text/css", ".recalculating {opacity: 1.0;}"),
+    use_scroller(),
+    useShinyjs(),
+    theme = bs_theme(bg = fpl_col, fg = fpl_accent, bootswatch = "flatly")
   )
 }
