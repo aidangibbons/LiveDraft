@@ -31,6 +31,7 @@ mod_splash_page_server <- function(id){
       modalDialog(
         h1("Enter league ID (if known), or team ID"),
         p("TODO - enter explanation to get team ID here."),
+        p("Note - Team ID text box doesn't work. It will just assume you've entered a league ID."),
         textInput(ns("txtLeagueID"), "League ID:"),
         textInput(ns("txtTeamID"), "Team ID:"),
         if (failed)

@@ -6,15 +6,23 @@
 #'
 #' @noRd
 load_global_variables <- function () {
+  # is the app live or in production
+  is_live <<- F
+  is_local <<- T
+
+  # colours
   fpl_col <<- "#480442"
   fpl_accent <<- "#68F1B0"
 
-  ## TODO update this
+  # FPL variables
+  url_bootstrap_dynamic <<- "https://draft.premierleague.com/api/game"
+  url_bootstrap_static <<- "https://draft.premierleague.com/api/bootstrap-static"
 
-  is_live <<- F
 
-  video_duration <<- 50
-
+  # timer variables
+  video_duration <<- 45
+  video_added_duration <<- 10
+  vid_trigger_time <<- video_duration + video_added_duration
   wait_timer <<- 2
 }
 
@@ -40,4 +48,8 @@ darker.col = function(color, how.much = 20){
   colorRampPalette(c(color, "black"))(100)[how.much]
 }
 
-
+print_dev <- function(p) {
+  if (is_local) {
+    print(p)
+  }
+}

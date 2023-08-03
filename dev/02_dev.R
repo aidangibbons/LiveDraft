@@ -36,6 +36,7 @@ golem::add_js_file("script", open = F)
 golem::add_js_handler("handlers", open = F)
 golem::add_css_file("custom", open = F)
 golem::add_sass_file("custom", open = F)
+golem::add_resource_path( 'img', system.file('app/www/img', package = 'golex') )
 
 ## Add internal datasets ----
 ## If you have data in your package

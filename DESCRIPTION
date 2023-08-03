@@ -8,10 +8,22 @@ License: MIT + file LICENSE
 URL: https://github.com/aidangibbons/LiveDraft
 BugReports: https://github.com/aidangibbons/LiveDraft/issues
 Imports: 
+    bslib,
     config (>= 0.3.1),
+    curl,
+    dplyr,
+    glue,
     golem (>= 0.4.1),
+    gt,
+    jsonlite,
+    lubridate,
     magrittr,
-    shiny (>= 1.7.4)
+    scroller,
+    shiny (>= 1.7.4),
+    shinyjs,
+    stringr,
+    tibble,
+    tidyr
 Suggests: 
     knitr,
     rmarkdown,
