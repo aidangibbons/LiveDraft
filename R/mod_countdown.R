@@ -124,10 +124,6 @@ mod_countdown_server <- function(id, league_id, dims){
       req(countdown_trigger())
       tags$img(src = "https://4.bp.blogspot.com/-NyFdZN356io/UDXNuriTlVI/AAAAAAAAAXE/sx4HCOG4w0k/s1600/Barclays+Premier+League.png",
                width = 360)
-      # list(src = "https://www.w3schools.com/images/lamp.jpg",
-      #      contentType = 'image/png',
-      #      width = 240,
-      #      alt = "")
     })
 
     output$htmlVideoOut <- renderUI({

@@ -30,12 +30,16 @@ mod_splash_page_server <- function(id){
     splashModal <- function (failed = F) {
       modalDialog(
         h1("Enter league ID (if known), or team ID"),
-        p("TODO - enter explanation to get team ID here."),
-        p("Note - Team ID text box doesn't work. It will just assume you've entered a league ID."),
+        p("To find team ID, got to the 'Status' tab on the draft website."),
+        p("On the right-hand sidebar, there is the 'Transactions' section. Click 'View Transactions'."),
+        p("Your team ID should be visible in your URL in the format 'https://draft.premierleague.com/entry/TEAM_ID/transactions'"),
         textInput(ns("txtLeagueID"), "League ID:"),
+        p("OR"),
         textInput(ns("txtTeamID"), "Team ID:"),
         if (failed)
-          p("TODO - make this red. One of League ID or Team ID must be provided."),
+          p("One of League ID or Team ID must be provided.",
+            style = "color: red; font-weight: bold; padding-top: 5px;",
+            class = "text-center"),
         footer = actionButton(ns("btnConfirm"), "Confirm")
       )
     }
@@ -82,7 +86,3 @@ clean_numeric_input <- function(t) {
   })
 }
 
-team_id_to_league_id <- function (t) {
-  # TODO do this
-  t
-}

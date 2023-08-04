@@ -7,8 +7,8 @@
 #' @noRd
 load_global_variables <- function () {
   # is the app live or in production
-  is_live <<- F
-  is_local <<- T
+  is_live <<- T
+  is_local <<- F
 
   # colours
   fpl_col <<- "#480442"
@@ -26,6 +26,22 @@ load_global_variables <- function () {
   wait_timer <<- 2
 }
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param colour PARAM_DESCRIPTION
+#' @param percent PARAM_DESCRIPTION, Default: 10
+#' @param name PARAM_DESCRIPTION, Default: NULL
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname t_col
+#' @export
+#' @importFrom grDevices col2rgb colorRampPalette rgb
 t_col <- function(colour, percent = 10, name = NULL) {
   #      color = color name
   #    percent = % transparency

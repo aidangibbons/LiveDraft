@@ -22,6 +22,8 @@ get_url_data <- function (url) {
 
 url_league_details <- function (league) {paste0("https://draft.premierleague.com/api/league/", league, "/details")}
 url_league_draft_picks <- function (league) {paste0("https://draft.premierleague.com/api/draft/", league, "/choices")}
+url_team_details <- function (team_id) {paste0("https://draft.premierleague.com/api/entry/", team_id, "/public")}
+url_player_image <- function (player_code) {paste0("https://resources.premierleague.com/premierleague/photos/players/110x140/p", player_code, ".png")}
 
 #' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
@@ -53,12 +55,12 @@ table_live_draft_picks <- function (league, plot_table = F) {
     tibble
 
   player_details <- get_player_details(bs_static) %>%
-    select(web_name, id, first_name, second_name, position)
+    select(web_name, id, code, first_name, second_name, position)
 
   picks_with_players <- current_picks %>%
     mutate(player_name = paste(player_first_name, str_sub(player_last_name, 1, 1))) %>%
     left_join(player_details %>%
-                select(web_name, id, position), by = c("element" = "id"))
+                select(web_name, id, code, position), by = c("element" = "id"))
 
   chosen_players <- picks_with_players %>%
     arrange(index) %>%
@@ -137,7 +139,7 @@ table_live_draft_picks <- function (league, plot_table = F) {
     "Draft is complete!"
   }
 
-  latest_player_img_file <- "TODO"
+  latest_player_img_file <- last_pick$code %>% url_player_image
 
   return(list("picks" = chosen_players,
               "latest" = last_pick_text,
@@ -146,6 +148,7 @@ table_live_draft_picks <- function (league, plot_table = F) {
               "img" = latest_player_img_file,
               "next_pick" = next_pick))
 }
+
 
 #' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
@@ -188,4 +191,10 @@ get_player_details <- function (bs_static) {
 
   player_details_position %>%
     tibble()
+}
+
+team_id_to_league_id <- function (team_id) {
+  url_team_details(team_id) %>%
+    get_url_data %>%
+    {.$entry$league_set}
 }

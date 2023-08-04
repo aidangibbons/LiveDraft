@@ -17,8 +17,10 @@ mod_main_ui <- function(id){
 #' main Server Functions
 #'
 #' @noRd
-#' @importFrom gt gt_output render_gt gt
+#' @importFrom gt gt_output render_gt gt cols_align tab_style cell_fill cells_body cell_text cells_column_labels
 #' @importFrom tibble tibble
+#' @importFrom purrr map_chr
+#' @importFrom dplyr everything across
 mod_main_server <- function(id, livedraft_trigger, league){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
@@ -39,8 +41,8 @@ mod_main_server <- function(id, livedraft_trigger, league){
           ),
           column(
             width = 2, align = "center",
-            # imageOutput(ns("imgLatestPick")),
-            htmlOutput(ns("txtLatestPick"))
+            uiOutput(ns("txtLatestPick")),
+            uiOutput(ns("imgLatestPick"))
           ),
           column(
             width = 5, align = "center",
@@ -62,7 +64,10 @@ mod_main_server <- function(id, livedraft_trigger, league){
       req(picksList())
 
       picksList()$picks %>%
-        gt
+        mutate(across(everything(), ~ifelse(is.na(.), "", .))) %>%
+        gt() %>%
+        tab_style(style = cell_text(weight = "bold"),
+                  locations = cells_column_labels())
     })
 
     output$txtLatestPick <- renderUI({
@@ -78,39 +83,47 @@ mod_main_server <- function(id, livedraft_trigger, league){
       )
     })
 
-    # output$imgLatestPick <- renderImage({
-    #   req(livedraft_trigger())
-    #   invalidator()
-    #
-    # })
+    output$imgLatestPick <- renderUI({
+      req(picksList()$last_change)
+
+      tags$img(src = picksList()$img,
+               width = 240)
+
+    })
 
     output$gtPicksPosition <- render_gt({
       req(picksList())
 
-      pos_df <- picksList()$positions
-
-      color.gkp <- which(pos_df$Pos == "GKP")
-      color.def <- which(pos_df$Pos == "DEF")
-      color.mid <- which(pos_df$Pos == "MID")
-      color.fwd <- which(pos_df$Pos == "FWD")
-
-      # if (ncol(pos_df) == 2) {
-      #   return(
-      #     tibble() %>%
-      #       kbl %>%
-      #       kable_styling
-      #   )
-      # }
+      pal <- c("#aecfb7", "#aec6cf", "#cfaec6", "#cfb7ae") %>%
+        map_chr(t_col)
 
       picksList()$positions %>%
         select(-Pos) %>%
-        gt
-        # kbl %>%
-        # kable_styling %>%
-        # row_spec(color.gkp, color = darker.col(fpl_accent, 100), background = t_col("#aecfb7")) %>%
-        # row_spec(color.def, color = darker.col(fpl_accent, 100), background = t_col("#aec6cf")) %>%
-        # row_spec(color.mid, color = darker.col(fpl_accent, 100), background = t_col("#cfaec6")) %>%
-        # row_spec(color.fwd, color = darker.col(fpl_accent, 100), background = t_col("#cfb7ae"))
+        mutate(across(everything(), ~ifelse(is.na(.), "", .))) %>%
+        gt() %>%
+        cols_align(
+          align = "center",
+          columns = c(everything())
+        ) %>%
+        tab_style(style = cell_text(weight = "bold"),
+                  locations = cells_column_labels()) %>%
+        tab_style(
+          style = cell_fill(color = pal[1]),
+          locations = cells_body(rows = 1:2)
+        ) %>%
+        tab_style(
+          style = cell_fill(color = pal[2]),
+          locations = cells_body(rows = 3:7)
+        ) %>%
+        tab_style(
+          style = cell_fill(color = pal[3]),
+          locations = cells_body(rows = 8:12)
+        ) %>%
+        tab_style(
+          style = cell_fill(color = pal[4]),
+          locations = cells_body(rows = 13:15)
+        )
+
     })
   })
 }
